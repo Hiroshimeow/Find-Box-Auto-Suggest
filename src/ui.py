@@ -215,9 +215,16 @@ class SearchOverlay(QMainWindow):
             self.list_widget.setCurrentRow(0)
             self.list_widget.setVisible(True)
             
-            item_height = 28
-            count = min(len(results), 10)
-            list_height = count * item_height + 4 
+            # Dynamic height calculation
+            count = min(len(results), 6)
+            list_height = 0
+            if count > 0:
+                for i in range(count):
+                    # Use sizeHintForRow for an accurate height, with a fallback
+                    h = self.list_widget.sizeHintForRow(i)
+                    list_height += h if h > 0 else 32
+            
+            list_height += 4 # Padding
             self.list_widget.setFixedHeight(list_height)
         else:
             self.list_widget.setVisible(False)
@@ -340,6 +347,13 @@ class SearchOverlay(QMainWindow):
         else:
             super().keyPressEvent(event)
 
+    def changeEvent(self, event: QEvent):
+        """Hides the window when it loses focus (is deactivated)."""
+        super().changeEvent(event)
+        if event.type() == QEvent.Type.ActivationChange:
+            if not self.isActiveWindow():
+                self.hide()
+
     def show_search(self):
         # Store previous active window to restore focus later
         if sys.platform == "win32":
@@ -388,6 +402,9 @@ class SearchOverlay(QMainWindow):
         QTimer.singleShot(50, self._delayed_focus)
         QTimer.singleShot(100, self._delayed_focus)
         QTimer.singleShot(50, self._clean_hotkey_artifact)
+
+        # Trigger search for any pre-existing text when shown
+        QTimer.singleShot(110, lambda: self.on_text_changed(self.input_field.text()))
 
     def _delayed_focus(self):
         if self.isVisible():
