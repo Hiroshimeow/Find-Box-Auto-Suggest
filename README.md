@@ -5,7 +5,7 @@ Auto-Suggest is a powerful and intuitive productivity tool designed to help you 
 ## Features
 
 *   **Instant Search:** Quickly search for anything with a few keystrokes.
-*   **Hotkey Activation:** Access the tool instantly from anywhere with a configurable global hotkey (default: `Ctrl+Space`).
+*   **Hotkey Activation:** Access the tool instantly from anywhere with a configurable global hotkey (default: `Ctrl+Alt+F`).
 *   **Clean & Simple UI:** A minimal and unobtrusive interface that stays out of your way.
 *   **Extensible via Plugins:** Easily add new search sources or functionalities through a plugin architecture.
 
@@ -40,4 +40,4 @@ Once installed, you can run Auto-Suggest:
 python main.py
 ```
 
-After launching, press the default hotkey (`Ctrl+Space`) to bring up the search bar. Start typing, and Auto-Suggest will provide real-time suggestions. Select an option using the arrow keys and press `Enter` to execute or open it.
+After launching, press the default hotkey (`Ctrl+Alt+F`) to bring up the search bar. Start typing, and Auto-Suggest will provide real-time suggestions. Select an option using the arrow keys and press `Enter` to execute or open it.
