@@ -275,10 +275,13 @@ class SearchOverlay(QMainWindow):
                 with open(self.search_engine.data_file, 'r', encoding='utf-8') as f:
                     existing = [line.strip() for line in f.readlines() if line.strip()]
             
-            # Check if keyword already exists
+            # Check if keyword already exists (exact match)
             if text in existing:
                 print(f"Keyword '{text}' already exists.")
                 return
+            
+            # Note: For shortcut||content format, user should type it themselves
+            # We don't auto-generate shortcuts
             
             # Write new keyword at the top
             with open(self.search_engine.data_file, 'w', encoding='utf-8') as f:
@@ -330,8 +333,19 @@ class SearchOverlay(QMainWindow):
             self.input_field.blockSignals(False)
 
     def select_item(self, text):
+        """Copy the content to clipboard. If format is 'shortcut||content', copy only content."""
         clipboard = QApplication.clipboard()
-        clipboard.setText(text)
+        
+        # Extract content after || if present
+        if '||' in text:
+            parts = text.split('||', 1)
+            content = parts[1].strip() if len(parts) > 1 else text
+            clipboard.setText(content)
+            print(f"Copied: {content}")
+        else:
+            clipboard.setText(text)
+            print(f"Copied: {text}")
+        
         # Clear after selection as action is complete
         self.input_field.clear()
         self.hide()

@@ -46,32 +46,66 @@ class SearchEngine(QObject):
         """
         Searches for the query in the data.
         Returns a list of matching strings, case-insensitive.
+        
+        Format support: "shortcut||content"
+        - Search both shortcut and content parts
+        - Prioritize matches in the shortcut part (before ||)
         """
         if not query:
             return []
 
         query = query.lower()
-        # Simple containment search. Can be improved with fuzzy search if needed.
-        # Prioritize starts_with for better UX?
-        # For now, just simple 'in' check.
-        
         matches = []
-        count = 0
         
-        # First pass: starts with
+        # Parse data into structured format
+        parsed_items = []
         for item in self.data:
-            if item.lower().startswith(query):
-                matches.append(item)
-                count += 1
-                if count >= limit:
+            if '||' in item:
+                parts = item.split('||', 1)
+                shortcut = parts[0].strip()
+                content = parts[1].strip() if len(parts) > 1 else ''
+                parsed_items.append({
+                    'display': item,  # Full line to display
+                    'shortcut': shortcut,
+                    'content': content,
+                    'search_text': f"{shortcut} {content}".lower()
+                })
+            else:
+                # No separator, treat whole line as both shortcut and content
+                parsed_items.append({
+                    'display': item,
+                    'shortcut': item,
+                    'content': item,
+                    'search_text': item.lower()
+                })
+        
+        # Priority 1: Shortcut starts with query
+        for item in parsed_items:
+            if item['shortcut'].lower().startswith(query):
+                if item['display'] not in matches:
+                    matches.append(item['display'])
+                    if len(matches) >= limit:
+                        return matches
+        
+        # Priority 2: Content starts with query
+        for item in parsed_items:
+            if item['content'].lower().startswith(query) and item['display'] not in matches:
+                matches.append(item['display'])
+                if len(matches) >= limit:
                     return matches
-
-        # Second pass: contains (but not starts with)
-        for item in self.data:
-            if query in item.lower() and item not in matches:
-                matches.append(item)
-                count += 1
-                if count >= limit:
+        
+        # Priority 3: Shortcut contains query
+        for item in parsed_items:
+            if query in item['shortcut'].lower() and item['display'] not in matches:
+                matches.append(item['display'])
+                if len(matches) >= limit:
+                    return matches
+        
+        # Priority 4: Content contains query
+        for item in parsed_items:
+            if query in item['content'].lower() and item['display'] not in matches:
+                matches.append(item['display'])
+                if len(matches) >= limit:
                     return matches
                     
         return matches
