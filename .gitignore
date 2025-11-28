@@ -1,5 +1,6 @@
 # Gemini files
 *.gemini.md
+*auto-suggestREADME.md
 .gemini/
 
 # Data files
