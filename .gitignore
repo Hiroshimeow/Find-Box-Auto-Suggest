@@ -1,0 +1,9 @@
+# Gemini files
+*.gemini.md
+.gemini/
+
+# Data files
+data.json
+keyword.txt
+__pycache__/
+*.pyc
