@@ -1,3 +1,4 @@
+pip||pip install -r requirements.txt
 ssh||ssh ayumi@100.95.20.19
 ssh||ssh ayumi@100.69.92.3
 !! ||!!235813x
@@ -10,7 +11,7 @@ h@ ||haiduong8592@gmail.com
 hd ||hướng dẫn
 kt ||kiểm tra
 nd ||nội dung
-nf ||no fluff 
+nf ||no fluff
 ns ||nvidia-smi
 pp ||phương pháp
 pt ||phân tích
@@ -34,7 +35,7 @@ btj ||bằng tiếng nhật
 btv ||bằng tiếng việt
 crun||cd && ./run.sh
 cvj ||chuyển nội dung trong dấu nháy kép sang tiếng nhật thể である、するvà làm nó hợp lý hơn: "  "
-cvv ||chuyển sang tiếng việt: 
+cvv ||chuyển sang tiếng việt:
 gth ||giới thiệu
 hds ||hiểu đoạn sau như thế nào:
 Ilo ||Ilovesammy1
@@ -54,7 +55,7 @@ gen2 ||tôi cần chuyển toàn bộ dữ liệu của dự án này sang 1 box
 gtct ||giải thích chi tiết
 ptcf ||Persona:￾Task:￾Contex:￾Format:
 recom||sudo systemctl restart comfyui
-ttct ||tóm tắt chi tiết 
+ttct ||tóm tắt chi tiết
 venv ||source venv/bin/activate
 vtran||không cần viết lại toàn bộ, không cần giải thích gì khác ngoài câu trả lời.\n￾tôi sẽ gửi ghi âm bằng tiếng việt và bạn sẽ giúp tôi dịch nó sang tiếng nhật, sử dụng trình độ N3, N4, N5 cho các câu trả lời.
 conda ||conda activate ana39
